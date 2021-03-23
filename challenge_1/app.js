@@ -1,26 +1,33 @@
 const playerX = 'X';
 const playerO = 'O';
 const cells = document.getElementsByClassName('cell');
-let swap = false;
+// let swap = false;
+let currentPlayer = playerX;
 
 let board = {
-  row1: [0, 0, 0],
-  row2: [0, 0, 0],
-  row3: [0, 0, 0]
+  '1': [0, 0, 0],
+  '2': [0, 0, 0],
+  '3': [0, 0, 0]
 };
 
 let switchPlayer = () => {
-  swap = !swap;
+  if (currentPlayer === playerX) {
+    currentPlayer = playerO;
+  } else {
+    currentPlayer = playerX;
+  }
 };
 
 let handleClick = (e) => {
-  console.log('click');
-  if (!swap) {
-    e.target.textContent = playerX;
-  } else {
-    e.target.textContent = playerO;
-  }
+  e.target.textContent = currentPlayer;
+
+  let boardXY = e.target.id.split(',');
+  board[boardXY[0]][boardXY[1]] = currentPlayer;
+
   switchPlayer();
+
+  console.log('target cell:', e.target.id);
+  console.log('click', board);
 };
 
 for (var i = 0; i < cells.length; i++) {
