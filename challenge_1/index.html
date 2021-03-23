@@ -1,11 +1,35 @@
 <!DOCTYPE html>
 <html lang='en'>
 <head>
+  <style>
+    table, tr, td {
+      border: 1px solid black;
+      width: 175px;
+      height: 50px;
+    }
+    </style>
   <title>Tic Tac Toe</title>
 </head>
 <body>
-  <div>
-
+  <h1>Tic Tac Toe</h1>
+  <div class="board" style="text-align: center;">
+    <table>
+      <tr class="row1">
+        <td class="cell" id="board.row1[0]"></td>
+        <td class="cell" id="board.row1[1]"></td>
+        <td class="cell" id="board.row1[2]"></td>
+      </tr>
+      <tr class="row2">
+        <td class="cell" id="board.row2[0]"></td>
+        <td class="cell" id="board.row2[1]"></td>
+        <td class="cell" id="board.row2[2]"></td>
+      </tr>
+      <tr class="row3">
+        <td class="cell" id="board.row3[0]"></td>
+        <td class="cell" id="board.row3[1]"></td>
+        <td class="cell" id="board.row3[2]"></td>
+      </tr>
+    </table>
   </div>
 <script src='./app.js'></script>
 </body>
