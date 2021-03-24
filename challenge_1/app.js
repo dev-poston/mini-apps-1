@@ -2,6 +2,7 @@ const playerX = 'X';
 const playerO = 'O';
 const cells = document.getElementsByClassName('cell');
 let currentPlayer = playerX;
+let drawCounter = 0;
 
 let gameBoard = {
   '1': [0, 0, 0],
@@ -9,6 +10,7 @@ let gameBoard = {
   '3': [0, 0, 0]
 };
 
+// switches between players every turn
 const switchPlayer = () => {
   if (currentPlayer === playerX) {
     currentPlayer = playerO;
@@ -17,38 +19,37 @@ const switchPlayer = () => {
   }
 };
 
+// board checkers
 const checkWinOrDraw = (board) => {
-  // if a row haa all x or o
-  // win and display msg
-  let draw = 0;
   let winner;
+  drawCounter++;
 
-  for (var i = 0; i < Object.keys(board).length; i++) {
+  for (let i = 0; i < Object.keys(board).length; i++) {
     if (checkColWin(board, i)) {
       winner = checkColWin(board, i);
     }
     if (checkRowWin(board, i)) {
       winner = checkRowWin(board, i);
     }
+    if (checkDiagWin(board)) {
+      winner = checkDiagWin(board, i, i);
+    }
   }
 
-
-  // if a columns has all x or o
-  // win and display msg
-  // if a diag has all x or o
-  // win and display msg
-  // if 9 pieces have been placed
-  // draw and display msg
   if (winner) {
-    displayMsg(winner);
+    return displayMsg(winner);
+  }
+  if (drawCounter === 9) {
+    return displayMsg(null, 'draw');
   }
 };
 
 const checkRowWin = (board, row) => {
   let xCount = 0;
   let oCount = 0;
+
   row = (row + 1).toString();
-  for (var i = 0; i < board[row].length; i++) {
+  for (let i = 0; i < board[row].length; i++) {
     if (board[row][i] === playerX) {
       xCount++;
     }
@@ -62,13 +63,13 @@ const checkRowWin = (board, row) => {
   if (oCount === 3) {
     return 'O Wins!';
   }
-  return null;
 };
 
 const checkColWin = (board, col) => {
   let xCount = 0;
   let oCount = 0;
-  for (var key in board) {
+
+  for (let key in board) {
     if (board[key][col] === playerX) {
       xCount++;
     }
@@ -82,31 +83,54 @@ const checkColWin = (board, col) => {
   if (oCount === 3) {
     return 'O Wins!';
   }
-  return null;
 };
 
+const checkDiagWin = (board) => {
+  let xCount = 0;
+  let oCount = 0;
+
+  if ((board['1'][0] === playerX && board['2'][1] === playerX && board['3'][2] === playerX) ||
+    (board['1'][2] === playerX && board['2'][1] === playerX && board['3'][0] === playerX)) {
+    return 'X Wins!';
+  }
+  if ((board['1'][0] === playerO && board['2'][1] === playerO && board['3'][2] === playerO) ||
+    (board['1'][2] === playerO && board['2'][1] === playerO && board['3'][0] === playerO)) {
+    return 'O Wins!';
+  }
+
+};
+
+// displays win or draw msg
 const displayMsg = (winner, draw) => {
   if (winner) {
     alert(winner);
   }
   if (draw) {
-    alert('draw');
+    alert('Draw!.. Play Again?');
   }
 };
 
+// click handler populates game board obj and DOM elements - the meat and potatoes
 let handleClick = (e) => {
   e.target.textContent = currentPlayer;
   let boardXY = e.target.id.split(',');
   gameBoard[boardXY[0]][boardXY[1]] = currentPlayer;
-  checkWinOrDraw(gameBoard);
+
+  if (checkWinOrDraw(gameBoard)) {
+    resetBoard();
+    currentPlayer = playerX;
+  } else {
+    switchPlayer();
+  }
+
   // check win and draw
   // if win
   //  display win/draw msg
   //  clear board
+  //  clear DOM elements
   //  switch current player back to playerX
   // else if no win or draw
   //  switchplayer
-  switchPlayer();
 
   console.log('click', gameBoard);
 };
@@ -121,8 +145,4 @@ for (var i = 0; i < cells.length; i++) {
 
 console.log('Playing Tic Tac Toe @', new Date());
 
-//TODOs:
-// check wins
-// check draws
-// display win or draw messsage
 // button to reset game
