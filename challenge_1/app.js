@@ -1,9 +1,7 @@
 const playerX = 'X';
 const playerO = 'O';
-const cells = document.getElementsByClassName('cell');
 let currentPlayer = playerX;
 let drawCounter = 0;
-
 
 let gameBoard = {
   '1': [0, 0, 0],
@@ -97,7 +95,7 @@ const checkDiagWin = (board) => {
 
 // displays win or draw msg
 const displayMsg = (winOrDraw) => {
-    alert(winOrDraw);
+    alert(winOrDraw + ' Play Again?');
 };
 
 // click handler populates game board obj and DOM elements - the meat and potatoes
@@ -113,10 +111,10 @@ let handleClick = (e) => {
   } else {
     switchPlayer();
   }
-
   console.log('click', gameBoard);
 };
 
+//resets board after a win or draw
 const resetBoard = (handler) => {
   const cellsReset = document.getElementsByClassName('cell');
   for (let i = 0; i < cellsReset.length; i++) {
@@ -129,17 +127,20 @@ const resetBoard = (handler) => {
     '2': [0, 0, 0],
     '3': [0, 0, 0]
   };
+  drawCounter = 0;
   setBoard(handleClick);
 };
 
+//sets board on initial page load or after a win/draw
 const setBoard = (handler) => {
+  const cells = document.getElementsByClassName('cell');
   for (let i = 0; i < cells.length; i++) {
     cells[i].addEventListener('click', handler, {once: true});
   };
+  const button = document.getElementsByClassName('button');
+  button[0].addEventListener('click', resetBoard)
 };
 
 setBoard(handleClick);
 
-console.log('Playing Tic Tac Toe @', new Date());
-
-// button to reset game
+// fix draw msg
