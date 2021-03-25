@@ -20,8 +20,8 @@ const switchPlayer = () => {
 
 // board checkers
 const checkWinOrDraw = (board) => {
+  let draw = 'Draw!';
   let winner;
-  drawCounter++;
   for (let i = 0; i < Object.keys(board).length; i++) {
     if (checkColWin(board, i)) {
       winner = checkColWin(board, i);
@@ -34,7 +34,7 @@ const checkWinOrDraw = (board) => {
     }
   }
   if (drawCounter === 9) {
-    winner = 'Draw!.. Play Again?';
+    return draw;
   }
   if (winner) {
     return winner;
@@ -101,17 +101,16 @@ const displayMsg = (winOrDraw) => {
 // click handler populates game board obj and DOM elements - the meat and potatoes
 let handleClick = (e) => {
   e.target.textContent = currentPlayer;
+  drawCounter++;
   let boardXY = e.target.id.split(',');
   gameBoard[boardXY[0]][boardXY[1]] = currentPlayer;
 
   if (checkWinOrDraw(gameBoard)) {
-    console.log('checkwin@click', checkWinOrDraw(gameBoard));
     displayMsg(checkWinOrDraw(gameBoard));
     resetBoard(handleClick);
   } else {
     switchPlayer();
   }
-  console.log('click', gameBoard);
 };
 
 //resets board after a win or draw
