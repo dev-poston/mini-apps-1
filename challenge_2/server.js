@@ -1,13 +1,18 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const ejs = require('ejs');
 
-app.use(express.static('client'));
+app.use(express.static('views'));
 app.use(bodyParser.urlencoded({extended: true}));
-app.set('views', './client');
+app.set('views', './views');
 app.set('view engine', 'ejs')
 
-app.post('/upload_json', (req, res) => {
+app.get('/', (req, res) => {
+  res.render('index', {reports: null})
+});
+
+app.post('/', (req, res) => {
   console.log('POST REQ MADE');
   let parse = JSON.parse(req.body.text);
 
@@ -43,9 +48,8 @@ app.post('/upload_json', (req, res) => {
 
   let report = parseBody(parse);
   console.log(report);
-  res.render('indexTest', {
-    reports: report
-  });
+  res.status(200);
+  res.render('index', {reports: report});
 });
 
 app.listen(3000, () => {

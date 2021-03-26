@@ -3,14 +3,20 @@
 <head>
   <title>CSV Report Generator</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="ejs.js"></script>
 </head>
 <body>
   <h1>CSV Report Generator</h1>
-  <form method="post" action="http://localhost:3000/upload_json">
+  <form method="post" action="http://localhost:3000/">
     <textarea name="text" rows="20" cols="50"></textarea>
+    <br>
     <input type="submit" value="Submit"/>
   </form>
-  <div><%= reports %></div>
-<script src="./app.js"></script>
+  <br>
+  <% if (reports) { %>
+    <h7><%= reports %></h7>
+  <% } %>
+
+<!-- <script src="./app.js"></script> -->
 </body>
 </html>
