@@ -7,14 +7,19 @@ let app = {
   handleSubmit: (e) => {
     e.preventDefault();
     console.log('CLICK', e);
-    let file = e.target.form[0].form[0].files[0];
-    console.log(file);
-    // let data = new FormData($('#form'));
+    // let file = e.target.form[0].form[0].files[0];
+    // console.log(file);
+    let form = $('#form')[0];
+    let data = new FormData(form);
+
     $.ajax({
       url: '/',
       type: 'POST',
-      data: file,
-      contentType: 'application/json',
+      data: data,
+      cache: false,
+      processData: false,
+      contentType: false,
+      enctype: 'multipart/form-data',
       success: function(data) {
         console.log('DATA: ', data);
         $('body').append(data);
