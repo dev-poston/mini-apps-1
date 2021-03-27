@@ -1,23 +1,16 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-// const ejs = require('ejs');
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 const multer  = require('multer')
 const upload = multer();
 
-app.use(express.static('index'));
+app.use(express.static('client'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
-// app.set('views', './views');
-// app.set('view engine', 'ejs')
-
-app.get('/', (req, res) => {
-  res.render('index');
-});
 
 app.post('/', upload.any(), (req, res) => {
   console.log('POST REQ MADE: ', req);

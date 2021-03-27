@@ -6,6 +6,7 @@ let app = {
 
   handleSubmit: (e) => {
     console.log('submit click');
+    e.preventDefault();
     $.ajax({
       url: '/',
       type: 'POST',
@@ -16,7 +17,6 @@ let app = {
         $('body').append(data);
       }
     })
-    e.preventDefault();
   },
 
   handleDownload: () => {
