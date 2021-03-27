@@ -2,7 +2,6 @@ let app = {
 
   initialize: () => {
     $('#submit').on('click', app.handleSubmit);
-    $('#download').on('click', app.handleDownload);
   },
 
   handleSubmit: (e) => {
@@ -18,20 +17,9 @@ let app = {
       contentType: false,
       enctype: 'multipart/form-data',
       success: function(data) {
+        console.log('CSV Report: ', data);
         $('#report').append(data);
-        $('#download').append('<button type="button" id="button">Download CSV</button>');
-      }
-    });
-  },
-
-  handleDownload: (e) => {
-    e.preventDefault();
-    console.log('CLICK');
-    $.ajax({
-      url: '/challenge_2/test_sales_report.csv',
-      type: 'GET',
-      success: function(data) {
-        console.log('DOWNLOAD DATA: ', data);
+        $('#download').append('<a href="http://localhost:3000/test_sales_report.csv">Download CSV</a>');
       }
     });
   }

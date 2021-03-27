@@ -18,6 +18,7 @@ app.post('/', upload.any(), (req, res) => {
   let buf = req.files[0].buffer.toString();
   let parse = JSON.parse(buf);
 
+  //Stringifying the JSON object into CSV format
   let parseBody = (req) => {
     let csvReport = '';
     for (let key in req) {
@@ -49,7 +50,8 @@ app.post('/', upload.any(), (req, res) => {
   }
   let report = parseBody(parse);
 
-  fs.writeFile(`${fileName}` + 'csv', `${report}`, 'utf8', (err) => {
+  //Writing the file & sending back the CSV formatted string to render on the DOM
+  fs.writeFile(`./client/${fileName}` + 'csv', `${report}`, 'utf8', (err) => {
     if (err) {
       res.status(400).send('ERROR @ WRITEFILE: ', err);
     } else {
@@ -57,6 +59,15 @@ app.post('/', upload.any(), (req, res) => {
       res.status(200).send(report);
       }
     });
+});
+
+app.get('/download', (req, res) => {
+  let file = `${__dirname}/test_sales_report.csv`;
+  res.download(file, (err) => {
+    if(err) {
+      res.status(400).send('ERROR @ DOWNLOAD: ', err);
+    }
+  });
 });
 
 app.listen(3000, () => {
