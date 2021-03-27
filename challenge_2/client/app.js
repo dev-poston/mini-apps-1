@@ -5,13 +5,16 @@ let app = {
   },
 
   handleSubmit: (e) => {
-    console.log('submit click');
     e.preventDefault();
+    console.log('CLICK', e);
+    let file = e.target.form[0].form[0].files[0];
+    console.log(file);
+    // let data = new FormData($('#form'));
     $.ajax({
       url: '/',
       type: 'POST',
-      data: formData,
-      contentType: 'multipart/form-data',
+      data: file,
+      contentType: 'application/json',
       success: function(data) {
         console.log('DATA: ', data);
         $('body').append(data);
