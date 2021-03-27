@@ -1,26 +1,26 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const ejs = require('ejs');
+// const ejs = require('ejs');
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 const multer  = require('multer')
 const upload = multer();
 
-app.use(express.static('views'));
+app.use(express.static('index'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true})); //{extended: false} or true???
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
-app.set('views', './views');
-app.set('view engine', 'ejs')
+// app.set('views', './views');
+// app.set('view engine', 'ejs')
 
 app.get('/', (req, res) => {
-  res.render('index', {reports: null})
+  res.render('index');
 });
 
 app.post('/', upload.any(), (req, res) => {
-  console.log('POST REQ MADE', req.files);
+  console.log('POST REQ MADE: ', req);
   let fileName = req.files[0].originalname.slice(0, -4);
   let buf = req.files[0].buffer.toString();
   let parse = JSON.parse(buf);
@@ -60,8 +60,8 @@ app.post('/', upload.any(), (req, res) => {
     if (err) {
       res.status(400).send('File Upload Failed: ', err);
     } else {
-      res.status(200);
-      res.render('index', {reports: report});
+      console.log('SUCCESS @ POST WRITEFILE!');
+      res.status(200).send(report);
       }
     });
 

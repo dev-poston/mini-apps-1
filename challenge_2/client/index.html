@@ -1,17 +1,18 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang='en'>
-<head>
-  <title>CSV Report Generator</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="ejs.js"></script>
-</head>
-<body>
-  <h1>CSV Report Generator</h1>
-  <form method="post" action="http://localhost:3000/">
-    <textarea name="text" rows="20" cols="50"></textarea>
-    <input type="submit" value="Submit"/>
-  </form>
-  <div><%= records %></div>
-<script src="./app.js"></script>
-</body>
-</html> -->
+  <head>
+    <title>CSV Report Generator: HR Edition</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <h1>CSV Report Generator: HR Edition</h1>
+    <form id="form" name="form">
+      <!-- <textarea name="text" rows="20" cols="50"></textarea>
+        <br> -->
+      <input type="file" name="file" id="file"/>
+      <input type="submit" value="Submit" id="submit"/>
+    </form>
+    <script src="../client/app.js"></script>
+    <script>$(() => app.initialize());</script>
+  </body>
+</html>
