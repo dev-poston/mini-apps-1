@@ -6,6 +6,7 @@ let app = {
 
   handleSubmit: (e) => {
     e.preventDefault();
+    let file = e.target.form[0].files[0].name.slice(0, -4) + 'csv';
     let form = $('#form')[0];
     let data = new FormData(form);
     $.ajax({
@@ -19,7 +20,7 @@ let app = {
       success: function(data) {
         console.log('CSV Report: ', data);
         $('#report').append(data);
-        $('#download').append('<a href="http://localhost:3000/test_sales_report.csv">Download CSV</a>');
+        $('#download').append(`<a href="http://localhost:3000/${file}">Download CSV</a>`);
       }
     });
   }
