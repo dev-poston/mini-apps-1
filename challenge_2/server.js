@@ -5,8 +5,8 @@ const ejs = require('ejs');
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
-var multer  = require('multer')
-var upload = multer();
+const multer  = require('multer')
+const upload = multer();
 
 app.use(express.static('views'));
 app.use(bodyParser.json());
@@ -21,9 +21,8 @@ app.get('/', (req, res) => {
 
 app.post('/', upload.any(), (req, res) => {
   console.log('POST REQ MADE', req.files);
-
+  let fileName = req.files[0].originalname.slice(0, -4);
   let buf = req.files[0].buffer.toString();
-  // console.log(buf.toString());
   let parse = JSON.parse(buf);
 
   let parseBody = (req) => {
@@ -57,14 +56,15 @@ app.post('/', upload.any(), (req, res) => {
   }
   let report = parseBody(parse);
 
-  fs.writeFile(`${req.files[0].originalname}`, `${report}`, 'utf8', (err) => {
+  fs.writeFile(`${fileName}` + 'csv', `${report}`, 'utf8', (err) => {
     if (err) {
-        console.log('Error!');
-        throw err;
+      res.status(400).send('File Upload Failed: ', err);
     } else {
-        console.log('Saved!');
+      res.status(200);
+      res.render('index', {reports: report});
       }
     });
+
     // fs.readFile(path.join(__dirname, `${req.body.file}`), 'utf8', (err, data) => {
     //     if ( err ) {
     //         console.log( 'error', err );
@@ -73,10 +73,6 @@ app.post('/', upload.any(), (req, res) => {
     //         console.log(data);
     //     }
     // });
-
-  // console.log(report);
-  // res.status(200);
-  // res.render('index', {reports: report});
 });
 
 app.listen(3000, () => {
