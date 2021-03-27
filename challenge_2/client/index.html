@@ -8,11 +8,13 @@
   <body>
     <h1>CSV Report Generator: HR Edition</h1>
     <form id="form" name="form">
-      <!-- <textarea name="text" rows="20" cols="50"></textarea>
-        <br> -->
       <input type="file" name="file" id="file"/>
       <input type="submit" value="Submit" id="submit"/>
     </form>
+    <br>
+    <div id="report"></div>
+    <br>
+    <div id="download"></div>
     <script>$(() => app.initialize());</script>
   </body>
 </html>

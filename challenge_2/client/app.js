@@ -2,16 +2,13 @@ let app = {
 
   initialize: () => {
     $('#submit').on('click', app.handleSubmit);
+    $('#download').on('click', app.handleDownload);
   },
 
   handleSubmit: (e) => {
     e.preventDefault();
-    console.log('CLICK', e);
-    // let file = e.target.form[0].form[0].files[0];
-    // console.log(file);
     let form = $('#form')[0];
     let data = new FormData(form);
-
     $.ajax({
       url: '/',
       type: 'POST',
@@ -21,16 +18,23 @@ let app = {
       contentType: false,
       enctype: 'multipart/form-data',
       success: function(data) {
-        console.log('DATA: ', data);
-        $('body').append(data);
+        $('#report').append(data);
+        $('#download').append('<button type="button" id="button">Download CSV</button>');
       }
-    })
+    });
   },
 
-  handleDownload: () => {
-
-  },
-
+  handleDownload: (e) => {
+    e.preventDefault();
+    console.log('CLICK');
+    $.ajax({
+      url: '/challenge_2/test_sales_report.csv',
+      type: 'GET',
+      success: function(data) {
+        console.log('DOWNLOAD DATA: ', data);
+      }
+    });
+  }
 
 };
 

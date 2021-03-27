@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
 app.post('/', upload.any(), (req, res) => {
-  console.log('POST REQ MADE: ', req);
+  console.log('POST REQ MADE');
   let fileName = req.files[0].originalname.slice(0, -4);
   let buf = req.files[0].buffer.toString();
   let parse = JSON.parse(buf);
@@ -51,21 +51,12 @@ app.post('/', upload.any(), (req, res) => {
 
   fs.writeFile(`${fileName}` + 'csv', `${report}`, 'utf8', (err) => {
     if (err) {
-      res.status(400).send('File Upload Failed: ', err);
+      res.status(400).send('ERROR @ WRITEFILE: ', err);
     } else {
       console.log('SUCCESS @ POST WRITEFILE!');
       res.status(200).send(report);
       }
     });
-
-    // fs.readFile(path.join(__dirname, `${req.body.file}`), 'utf8', (err, data) => {
-    //     if ( err ) {
-    //         console.log( 'error', err );
-    //     } else {
-    //         console.log('file read');
-    //         console.log(data);
-    //     }
-    // });
 });
 
 app.listen(3000, () => {
