@@ -24,40 +24,40 @@ app.post('/', upload.any(), (req, res) => {
 
   let buf = req.files[0].buffer.toString();
   // console.log(buf.toString());
-  // let parse = JSON.parse(req.body);
+  let parse = JSON.parse(buf);
 
-  // let parseBody = (req) => {
-  //   let csvReport = '';
-  //   for (let key in req) {
-  //     if (key !== 'children') {
-  //       csvReport += (key + ',');
-  //     }
-  //   }
-  //   csvReport = csvReport.slice(0, -1) + '\n';
-  //   let bodySearch = (body) => {
-  //     if (!body.children) {
-  //       return;
-  //     }
-  //     for (let val in body) {
-  //       if (val !== 'children') {
-  //         csvReport += (body[val] + ',');
-  //       } else {
-  //         if (val) {
-  //           for (let i = 0; i < body[val].length; i++) {
-  //             csvReport = csvReport.slice(0, -1) + '\n';
-  //             bodySearch(body[val][i])
-  //           }
-  //         }
-  //       }
-  //     }
-  //     csvReport = csvReport.slice(0, -1) + '\n';
-  //   }
-  //   bodySearch(req);
-  //   return csvReport;
-  // }
-  // let report = parseBody(req.body);
+  let parseBody = (req) => {
+    let csvReport = '';
+    for (let key in req) {
+      if (key !== 'children') {
+        csvReport += (key + ',');
+      }
+    }
+    csvReport = csvReport.slice(0, -1) + '\n';
+    let bodySearch = (body) => {
+      if (!body.children) {
+        return;
+      }
+      for (let val in body) {
+        if (val !== 'children') {
+          csvReport += (body[val] + ',');
+        } else {
+          if (val) {
+            for (let i = 0; i < body[val].length; i++) {
+              csvReport = csvReport.slice(0, -1) + '\n';
+              bodySearch(body[val][i])
+            }
+          }
+        }
+      }
+      csvReport = csvReport.slice(0, -1) + '\n';
+    }
+    bodySearch(req);
+    return csvReport;
+  }
+  let report = parseBody(parse);
 
-  fs.writeFile(`${req.files[0].originalname}`, `${buf}`, 'utf8', (err) => {
+  fs.writeFile(`${req.files[0].originalname}`, `${report}`, 'utf8', (err) => {
     if (err) {
         console.log('Error!');
         throw err;
