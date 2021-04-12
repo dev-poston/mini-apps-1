@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/checkout');
-let db = mongoose.conntion;
+let db = mongoose.connection;
 
 db.once('open', () => {
   console.log('CONNECTED TO MongoDB!');
