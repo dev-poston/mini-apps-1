@@ -10,6 +10,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/', (req, res) => {
   console.log('SERVER: POST REQ RECEIVED: ', req.body);
+  //do stuff with data
+  res.status(200).send('Success');
 });
 
 app.listen(port, () => {
