@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -30,8 +28,23 @@ class App extends React.Component {
   };
 
   click(e) {
+    console.log('CLICK!');
     e.preventDefault();
-
+    $.ajax({
+      url: '/',
+      type: 'POST',
+      data: JSON.stringify(this.state),
+      contentType: 'application/json',
+      success: (data) => {
+        console.log('AJAX RECEIVED RES: ', data);
+      },
+      error: (error) => {
+        console.log('AJAX ERROR: ', error);
+      }
+    });
+    this.setState({
+      formStep: this.state.formStep++
+    });
   };
 
   render() {
@@ -42,6 +55,7 @@ class App extends React.Component {
             <input
             type="button"
             value="Proceed to Checkout"
+            onClick={this.click}
             />
           </form>
         </div>
@@ -49,7 +63,12 @@ class App extends React.Component {
     } else if (this.state.formStep === 1) {
       return(
         <div>
+          <form onSubmit={this.click}>
+            <input type="text" placeholder="Full Name" require/>
+            <input type="text" placeholder="Email Address" require/>
+            <input type="text" placeholder="Password" require/>
 
+          </form>
         </div>
       )
     } else if (this.state.formStep === 2) {
