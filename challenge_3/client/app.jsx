@@ -40,7 +40,8 @@ class App extends React.Component {
         console.log('AJAX RECEIVED RES: ', data);
         if (this.state.formStep === 4) {
           this.setState({
-            formStep: 0
+            formStep: 0,
+            formNum: data.length + 1
           });
         } else {
           this.setState({
@@ -52,7 +53,6 @@ class App extends React.Component {
         console.log('AJAX ERROR: ', error);
       }
     });
-    console.log('STEP: ', this.state.formStep);
   };
 
   render() {
@@ -60,11 +60,7 @@ class App extends React.Component {
       return(
         <div>
           <form>
-            <input
-            type="button"
-            value="Proceed to Checkout"
-            onClick={this.click}
-            />
+            <input type="button" value="Proceed to Checkout" onClick={this.click}/>
           </form>
         </div>
       )
@@ -83,12 +79,12 @@ class App extends React.Component {
     } else if (this.state.formStep === 2) {
       return(
         <div>
-          <form onSubmit={this.change}>
-            <input type="text" placeholder="Address Line 1" require="true"/>
-            <input type="text" placeholder="Address Line 2"/>
-            <input type="text" placeholder="City" require="true"/>
-            <input type="text" placeholder="Zip" require="true"/>
-            <input type="text" placeholder="Phone Number" require="true"/>
+          <form onSubmit={this.click}>
+            <input type="text" name="address1" placeholder="Address Line 1" require="true" onChange={this.change}/>
+            <input type="text" name="address2" placeholder="Address Line 2" onChange={this.change}/>
+            <input type="text" name="city" placeholder="City" require="true" onChange={this.change}/>
+            <input type="text" name="zip" placeholder="Zipcode" require="true" onChange={this.change}/>
+            <input type="text" name="phone" placeholder="Phone Number" require="true" onChange={this.change}/>
             <input type="submit" value="Next"/>
           </form>
         </div>
@@ -97,11 +93,11 @@ class App extends React.Component {
       return(
         <div>
           <br/>
-          <form onSubmit={this.change}>
-            <input type="text" placeholder="Credit Card Number" require="true"/>
-            <input type="text" placeholder="Expiration Date" require="true"/>
-            <input type="text" placeholder="CVV" require="true"/>
-            <input type="text" placeholder="Billing Zipcode" require="true"/>
+          <form onSubmit={this.click}>
+            <input type="text" name="cc" placeholder="Credit Card Number" require="true" onChange={this.change}/>
+            <input type="text" name="exp" placeholder="Expiration Date" require="true" onChange={this.change}/>
+            <input type="text" name="cvv" placeholder="CVV" require="true" onChange={this.change}/>
+            <input type="text" name="billZip" placeholder="Billing Zipcode" require="true" onChange={this.change}/>
             <input type="submit" value="Next"/>
           </form>
         </div>
@@ -129,23 +125,23 @@ class App extends React.Component {
             </thead>
             <tbody>
               <tr>
-                <td>{this.state.f1.fullname}</td>
-                <td>{this.state.f1.email}</td>
-                <td>{this.state.f1.password}</td>
-                <td>{this.state.f2.address1}</td>
-                <td>{this.state.f2.address2}</td>
-                <td>{this.state.f2.city}</td>
-                <td>{this.state.f2.state}</td>
-                <td>{this.state.f2.zipcode}</td>
-                <td>{this.state.f2.phone}</td>
-                <td>{this.state.f3.cc}</td>
-                <td>{this.state.f3.exp}</td>
-                <td>{this.state.f3.cvv}</td>
-                <td>{this.state.f3.billZip}</td>
+                <td>{this.state.name}</td>
+                <td>{this.state.email}</td>
+                <td>{this.state.password}</td>
+                <td>{this.state.address1}</td>
+                <td>{this.state.address2}</td>
+                <td>{this.state.city}</td>
+                <td>{this.state.state}</td>
+                <td>{this.state.zip}</td>
+                <td>{this.state.phone}</td>
+                <td>{this.state.cc}</td>
+                <td>{this.state.exp}</td>
+                <td>{this.state.cvv}</td>
+                <td>{this.state.billZip}</td>
               </tr>
             </tbody>
           </table>
-          Complete Purchase
+          Complete Your Purchase
           <form onClick={this.click}>
             <input type="button" value="Purchase"/>
           </form>

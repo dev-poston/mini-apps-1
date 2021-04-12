@@ -10,6 +10,7 @@ db.on('error', (error) => {
 });
 
 let checkoutSchema = mongoose.Schema({
+  formNum: Number,
   name: String,
   email: String,
   password: String,
@@ -29,6 +30,7 @@ let Checkout = mongoose.model('Checkout', checkoutSchema);
 
 let save = (formData, callback) => {
   let Form = new Checkout({
+    formNum: formData.formNum,
     name: formData.name,
     email: formData.email,
     password: formData.password,
@@ -54,18 +56,29 @@ let save = (formData, callback) => {
     });
 };
 
-let update = (formData, updateData, callback) => {
-  Form.update({
-
-  })
+let update = (formData, callback) => {
+  Checkout.update({formNum: formData.formNum}, {$set: formData})
     .then((data) => {
-      console.log('UPDATING DB...')
+      console.log('UPDATING DB...');
       callback(null, data);
     })
     .catch((error) => {
-      console.log('FAILED TO SAVE TO DB: ', error);
+      console.log('FAILED TO UPDATE DB: ', error);
       callback(error);
-    })
+    });
 };
 
-module.exports = {save, update};
+let find = (query, callback) => {
+  console.log('DB QUERY: ', query);
+  Checkout.find(query)
+    .then((data) => {
+      console.log('SEARCHING DB...')
+      callback(null, data);
+    })
+    .catch((error) => {
+      console.log('FAILED TO SEARCH DB: ', error);
+      callback(error);
+    });
+};
+
+module.exports = {save, update, find};

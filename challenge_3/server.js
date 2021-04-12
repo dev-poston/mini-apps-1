@@ -10,8 +10,41 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/', (req, res) => {
   console.log('SERVER: POST REQ RECEIVED: ', req.body);
-  //do stuff with data
-  res.status(200).send('Success');
+  db.find({formNum: req.body.formNum}, (err, data) => {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      if (data.length) {
+        db.update(req.body, (err, data) => {
+          if (err) {
+            res.status(400).send(err);
+          } else {
+            db.find({formNum: req.body.formNum}, (err, data) => {
+              if (err) {
+                res.status(400).send(data);
+              } else {
+                res.status(200).send(data);
+              }
+            });
+          }
+        });
+      } else {
+        db.save(req.body, (err, data) => {
+          if (err) {
+            res.status(400).send(err);
+          } else {
+            db.find({formNum: req.body.formNum}, (err, data) => {
+              if (err) {
+                res.status(400).send(data);
+              } else {
+                res.status(200).send(data);
+              }
+            });
+          }
+        });
+      }
+    }
+  });
 });
 
 app.listen(port, () => {
