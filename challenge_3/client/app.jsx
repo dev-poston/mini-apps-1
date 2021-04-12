@@ -22,14 +22,13 @@ class App extends React.Component {
     this.change = this.change.bind(this);
   };
 
-  change(e) {
+  change() {
     this.setState({
       [event.target.name]: event.target.value
     });
   };
 
   click(e) {
-    console.log('CLICK!', this.state);
     e.preventDefault();
     $.ajax({
       url: '/',
@@ -37,7 +36,6 @@ class App extends React.Component {
       data: JSON.stringify(this.state),
       contentType: 'application/json',
       success: (data) => {
-        console.log('AJAX RECEIVED RES: ', data);
         if (this.state.formStep === 4) {
           this.setState({
             formStep: 0,
@@ -69,9 +67,9 @@ class App extends React.Component {
         <div>
           <br/>
           <form onSubmit={this.click}>
-            <input type="text" name="name" placeholder="Full Name" require="true" onChange={this.change}/>
-            <input type="text" name="email" placeholder="Email Address" require="true" onChange={this.change}/>
-            <input type="text" name="password" placeholder="Password" require="true" onChange={this.change}/>
+            <input type="text" name="name" placeholder="Full Name" required onChange={this.change}/>
+            <input type="text" name="email" placeholder="Email Address" required onChange={this.change}/>
+            <input type="text" name="password" placeholder="Password" required onChange={this.change}/>
             <input type="submit" value="Next"/>
           </form>
         </div>
@@ -80,11 +78,12 @@ class App extends React.Component {
       return(
         <div>
           <form onSubmit={this.click}>
-            <input type="text" name="address1" placeholder="Address Line 1" require="true" onChange={this.change}/>
+            <input type="text" name="address1" placeholder="Address Line 1" required onChange={this.change}/>
             <input type="text" name="address2" placeholder="Address Line 2" onChange={this.change}/>
-            <input type="text" name="city" placeholder="City" require="true" onChange={this.change}/>
-            <input type="text" name="zip" placeholder="Zipcode" require="true" onChange={this.change}/>
-            <input type="text" name="phone" placeholder="Phone Number" require="true" onChange={this.change}/>
+            <input type="text" name="city" placeholder="City" required onChange={this.change}/>
+            <input type="text" name="state" placeholder="State" required onChange={this.change}/>
+            <input type="text" name="zip" placeholder="Zipcode" required onChange={this.change}/>
+            <input type="text" name="phone" placeholder="Phone Number" required onChange={this.change}/>
             <input type="submit" value="Next"/>
           </form>
         </div>
@@ -94,10 +93,10 @@ class App extends React.Component {
         <div>
           <br/>
           <form onSubmit={this.click}>
-            <input type="text" name="cc" placeholder="Credit Card Number" require="true" onChange={this.change}/>
-            <input type="text" name="exp" placeholder="Expiration Date" require="true" onChange={this.change}/>
-            <input type="text" name="cvv" placeholder="CVV" require="true" onChange={this.change}/>
-            <input type="text" name="billZip" placeholder="Billing Zipcode" require="true" onChange={this.change}/>
+            <input type="text" name="cc" placeholder="Credit Card Number" required onChange={this.change}/>
+            <input type="text" name="exp" placeholder="Expiration Date" required onChange={this.change}/>
+            <input type="text" name="cvv" placeholder="CVV" required onChange={this.change}/>
+            <input type="text" name="billZip" placeholder="Billing Zipcode" required onChange={this.change}/>
             <input type="submit" value="Next"/>
           </form>
         </div>

@@ -9,7 +9,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/', (req, res) => {
-  console.log('SERVER: POST REQ RECEIVED: ', req.body);
   db.find({formNum: req.body.formNum}, (err, data) => {
     if (err) {
       res.status(400).send(err);
