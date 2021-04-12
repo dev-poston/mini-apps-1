@@ -1,9 +1,12 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 const path = require('path');
 const port = 3000;
 
-app.use(express.static(path.join(__dirname, './public/index.html')))
+app.use(express.static('public/index.html'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
   console.log(req.body);
@@ -11,6 +14,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Sever Listening on '${port}'`);
-})
-
+  console.log(`Sever Listening on Port: ${port}`);
+});
