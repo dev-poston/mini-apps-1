@@ -18,13 +18,11 @@ let app = {
       contentType: false,
       enctype: 'multipart/form-data',
       success: function(data) {
-        console.log('CSV Report: ', data);
-        $('#report').append(data);
+        $('#report').append(`<table>${data}</table>`);
         $('#download').append(`<a href="http://localhost:3000/${file}">Download CSV</a>`);
       }
     });
   }
 
 };
-
 console.log('CSV Report Generator v1.0');

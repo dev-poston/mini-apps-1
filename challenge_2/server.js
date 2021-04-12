@@ -13,7 +13,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
 app.post('/', upload.any(), (req, res) => {
-  console.log('POST REQ MADE');
   let fileName = req.files[0].originalname.slice(0, -4);
   let buf = req.files[0].buffer.toString();
   let parse = JSON.parse(buf);
