@@ -16,7 +16,7 @@ class App extends React.Component {
       cc: '',
       exp: '',
       cvv: '',
-      billZip: '',
+      billZip: ''
     };
     this.click = this.click.bind(this);
     this.change = this.change.bind(this);
