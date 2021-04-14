@@ -3,7 +3,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       formStep: 0,
-      formNum: 0,
+      formNum: 1,
       name: '',
       email: '',
       password: '',
@@ -39,7 +39,7 @@ class App extends React.Component {
         if (this.state.formStep === 4) {
           this.setState({
             formStep: 0,
-            formNum: data.length + 1
+            formNum: this.state.formNum + 1
           });
         } else {
           this.setState({
