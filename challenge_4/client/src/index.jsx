@@ -39,6 +39,8 @@ class App extends React.Component {
         this.setState({
           [key]: this.state.board[key]
         });
+        this.checkRowWin(this.state.board[key]);
+        this.checkColWin(this.state.board, index);
         break;
       }
     }
@@ -57,12 +59,47 @@ class App extends React.Component {
     }
   }
 
-  checkRowWin() {
-
+  checkRowWin(row) {
+    let redCount = 0;
+    let blackCount = 0;
+    row.forEach((cell) => {
+      if (cell === 'Red') {
+        blackCount = 0;
+        redCount++;
+        if (redCount === 4) {
+          alert('Player Red WINS!');
+        }
+      }
+      if (cell === 'Black') {
+        redCount = 0;
+        blackCount++;
+        if (blackCount === 4) {
+          alert('Player Black WINS!');
+        }
+      }
+    })
   }
 
-  checkColWin() {
-
+  checkColWin(board, col) {
+    let redCount = 0;
+    let blackCount = 0;
+    for (let key in board) {
+      if (board[key][col] === 'Red') {
+        blackCount = 0;
+        redCount++;
+        if (redCount === 4) {
+          alert('Player Red WINS!');
+        }
+      }
+      if (board[key][col] === 'Black') {
+        redCount = 0;
+        blackCount++;
+        if (blackCount === 4) {
+          alert('Player Black WINS!');
+        }
+      }
+      console.log('Red:', redCount, 'Black', blackCount);
+    }
   }
 
   checkDiagWin() {
