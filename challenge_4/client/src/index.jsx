@@ -12,26 +12,34 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tieCount: 0,
       player: 'Red',
       board: {
-        '6': ['', '', '', '', '', '', ''],
-        '5': ['', '', '', '', '', '', ''],
-        '4': ['', '', '', '', '', '', ''],
-        '3': ['', '', '', '', '', '', ''],
-        '2': ['', '', '', '', '', '', ''],
-        '1': ['', '', '', '', '', '', ''],
-        '0': ['', '', '', '', '', '', '']
+        6: ['', '', '', '', '', '', ''],
+        5: ['', '', '', '', '', '', ''],
+        4: ['', '', '', '', '', '', ''],
+        3: ['', '', '', '', '', '', ''],
+        2: ['', '', '', '', '', '', ''],
+        1: ['', '', '', '', '', '', ''],
+        0: ['', '', '', '', '', '', '']
       }
     };
     this.handleClick = this.handleClick.bind(this);
     this.switchPlayer = this.switchPlayer.bind(this);
     this.checkRowWin = this.checkRowWin.bind(this);
     this.checkColWin = this.checkColWin.bind(this);
-    this.checkDiagWin = this.checkDiagWin.bind(this);
+    this.checkMajDiagWin = this.checkMajDiagWin.bind(this);
+    this.checkMinDiagWin = this.checkMinDiagWin.bind(this);
   }
 
   handleClick(e) {
     e.preventDefault();
+    this.setState({
+      tieCount: this.state.tieCount + 1
+    });
+    if (this.state.tieCount === 49) {
+      alert('Draw!');
+    }
     let index = Number(e.target.id);
     for (let key in this.state.board) {
       if (this.state.board[key][index] === '') {
@@ -41,6 +49,8 @@ class App extends React.Component {
         });
         this.checkRowWin(this.state.board[key]);
         this.checkColWin(this.state.board, index);
+        this.checkMajDiagWin(this.state.board);
+        this.checkMinDiagWin(this.state.board);
         break;
       }
     }
@@ -77,7 +87,11 @@ class App extends React.Component {
           alert('Player Black WINS!');
         }
       }
-    })
+      if (cell === '') {
+        redCount = 0;
+        blackCount = 0;
+      }
+    });
   }
 
   checkColWin(board, col) {
@@ -98,12 +112,57 @@ class App extends React.Component {
           alert('Player Black WINS!');
         }
       }
-      console.log('Red:', redCount, 'Black', blackCount);
     }
   }
 
-  checkDiagWin() {
+  checkMajDiagWin(board, key = 0, row = 0) {
+    let redCount = 0;
+    let blackCount = 0;
+    let inner = (brd, k, i, rC, bC) => {
+      if (rC === 4) {
+        alert('Player Red WINS!');
+      }
+      if (bC === 4) {
+        alert('Player Black WINS!');
+      }
+      for (i; i < brd[k].length; i++) {
+        if (brd[k][i] === 'Red') {
+          inner(brd, k + 1, i + 1, rC + 1, bC = 0);
+        }
+        if (brd[k][i] === 'Black') {
+          inner(brd, k + 1, i + 1, rC = 0, bC + 1);
+        }
+      }
+    }
+    inner(board, key, row, redCount, blackCount);
+  }
 
+  checkMinDiagWin(board) {
+    // let redCount = 0;
+    // let blackCount = 0;
+    // for (let key in board) {
+    //   for (let i = board[key].length - 1; i >= 0; i--) {
+    //     if (board[key][i] === 'Red') {
+    //       blackCount = 0;
+    //       redCount++;
+    //       if (redCount === 4) {
+    //         alert('Player Red WINS!');
+    //       }
+    //       i -= 1;
+    //       break;
+    //     }
+    //     if (board[key][i] === 'Black') {
+    //       redCount = 0;
+    //       blackCount++;
+    //       if (blackCount === 4) {
+    //         alert('Player Black WINS!');
+    //       }
+    //       i -= 1;
+    //       break;
+    //     }
+    //   }
+    //   //console.log('Red: ', redCount, 'Black: ', blackCount);
+    // }
   }
 
   render() {
