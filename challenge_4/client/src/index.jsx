@@ -137,32 +137,26 @@ class App extends React.Component {
     inner(board, key, row, redCount, blackCount);
   }
 
-  checkMinDiagWin(board) {
-    // let redCount = 0;
-    // let blackCount = 0;
-    // for (let key in board) {
-    //   for (let i = board[key].length - 1; i >= 0; i--) {
-    //     if (board[key][i] === 'Red') {
-    //       blackCount = 0;
-    //       redCount++;
-    //       if (redCount === 4) {
-    //         alert('Player Red WINS!');
-    //       }
-    //       i -= 1;
-    //       break;
-    //     }
-    //     if (board[key][i] === 'Black') {
-    //       redCount = 0;
-    //       blackCount++;
-    //       if (blackCount === 4) {
-    //         alert('Player Black WINS!');
-    //       }
-    //       i -= 1;
-    //       break;
-    //     }
-    //   }
-    //   //console.log('Red: ', redCount, 'Black: ', blackCount);
-    // }
+  checkMinDiagWin(board, key = 0, row = 0) {
+    let redCount = 0;
+    let blackCount = 0;
+    let inner = (brd, k, i, rC, bC) => {
+      if (rC === 4) {
+        alert('Player Red WINS!');
+      }
+      if (bC === 4) {
+        alert('Player Black WINS!');
+      }
+      for (i; i < brd[k].length; i++) {
+        if (brd[k][i] === 'Red') {
+            inner(brd, k + 1, i - 1, rC + 1, bC = 0);
+        }
+        if (brd[k][i] === 'Black') {
+            inner(brd, k + 1, i - 1, rC = 0, bC + 1);
+        }
+      }
+    }
+    inner(board, key, row, redCount, blackCount);
   }
 
   render() {
